@@ -1,6 +1,7 @@
 
 import { getClient } from '@/apollo-client';
 import CalloutCard from '@/components/CalloutCard';
+import InformationPanel from '@/components/InformationPanel';
 import StatCard from '@/components/StatCard';
 import FetchWeatherQuery from '@/graphql/queries/fetchWeatherQueries';
 type Props = {
@@ -10,7 +11,7 @@ type Props = {
     long:string,
   }
 }
-const results = 7;
+const UV = 7;
 const windspeed =14.8;
 const wind_Direction =315;
 async function WeatherPage({params:{city,lat,long}}:Props) {
@@ -27,16 +28,23 @@ async function WeatherPage({params:{city,lat,long}}:Props) {
   // const results:Root = data.myQuery;
   return (
     <div>
+      {/* Information Panel*/}
+      <InformationPanel 
+        city={city} 
+        lat={lat} 
+        long={long} 
+      />
       <div className='p-5'>
         <div className='pb-5'>
           <h2 className='text-xl font-bold'>Todays Overview</h2>
           <p className='text-sm text-gray-400'>
             Last Update at:{" "}
-            {/* {new Date(results.current_weather.time).toLocaleString()}({results.timezone}) */}
+            {new Date().toLocaleTimeString("en-GB",{
+              hour:"numeric",
+              minute:"numeric",
+              hour12:true,
+            })}
           </p>
-          <div>
-            Place: {city} : {lat} {' - '} {long}
-          </div>
         </div>
         <div className='m-2 mb-10'>
           <CalloutCard
@@ -57,10 +65,10 @@ async function WeatherPage({params:{city,lat,long}}:Props) {
           <div>
             <StatCard
               tittle='UV Index'
-              metrics={`${results.toFixed(1)}°`}
+              metrics={`${UV.toFixed(1)}°`}
               color='rose'
             />
-            {Number(results) > 5 && (
+            {Number(UV) > 5 && (
               <CalloutCard
                 message={"The UV is high today, be sure to wear SPF!"}
                 warning
